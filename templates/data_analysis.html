@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Analysis</title>
+</head>
+<body>
+    <h1>Data Analysis</h1>
+    <h2>Basic Statistics:</h2>
+    {{ statistics | safe }}
+    <h2>Missing Values:</h2>
+    {{ missing_values | safe }}
+    <h2>Data Cleaning:</h2>
+    <form method="POST" action="/data-cleaning">
+        <label for="fill_method">Fill Missing Values:</label>
+        <select name="fill_method" id="fill_method">
+            <option value="value">With Specified Value</option>
+            <option value="mean">With Mean</option>
+            <option value="median">With Median</option>
+        </select>
+        <input type="number" name="fill_value" placeholder="Specify Value">
+        <br>
+        <label for="drop_threshold">Drop Columns with Missing Values Above (%):</label>
+        <input type="number" name="drop_threshold" placeholder="Threshold (%)">
+        <br>
+        <input type="submit" value="Clean Data">
+    </form>
+    <h2>Data Visualization:</h2>
+<form method="POST" action="/visualize-data">
+    <label for="selected_column_x">Select X-axis Column:</label>
+    <select name="selected_column_x" id="selected_column_x">
+        {% for column in columns %}
+            <option value="{{ column }}">{{ column }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="selected_column_y">Select Y-axis Column:</label>
+    <select name="selected_column_y" id="selected_column_y">
+        {% for column in columns %}
+            <option value="{{ column }}">{{ column }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label>Choose Visualization Type:</label>
+    <input type="radio" name="visualization_type" value="histogram" id="histogram">
+    <label for="histogram">Histogram</label>
+    <input type="radio" name="visualization_type" value="bar_chart" id="bar_chart">
+    <label for="bar_chart">Bar Chart</label>
+    <input type="radio" name="visualization_type" value="scatter_plot" id="scatter_plot">
+    <label for="scatter_plot">Scatter Plot</label>
+    <input type="radio" name="visualization_type" value="heatmap" id="heatmap">
+    <label for="heatmap">Heatmap</label>
+    <br>
+    <input type="submit" value="Generate Visualization">
+    <img src="{{ visualization_image }}" alt="Visualization">
+</form>
+</body>
+</html>
